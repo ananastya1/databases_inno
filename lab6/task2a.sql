@@ -41,19 +41,16 @@ CREATE TABLE loans (
   loan_date DATE
 );
 
--- insert schools
 INSERT INTO schools (school_name) VALUES
   ('Horizon Education Institute'),
   ('Bright Institution');
 
--- insert teachers
 INSERT INTO teachers (teacher_name, school_id) VALUES
   ('Chad Russell', 1),
   ('E.F.Codd', 1),
   ('Jones Smith', 1),
   ('Adam Baker', 2);
 
--- insert courses
 INSERT INTO courses (course_name) VALUES
   ('Logical Thinking'),
   ('Writing'),
@@ -61,25 +58,21 @@ INSERT INTO courses (course_name) VALUES
   ('Spatial, Temporal and Causal Thinking'),
   ('English');
 
--- insert classrooms
 INSERT INTO classrooms (room_name, school_id) VALUES
   ('1.A01', 1),
   ('1.B01', 1),
   ('2.B01', 2);
 
--- insert grades
 INSERT INTO grades (grade_name) VALUES
   ('1st grade'),
   ('2nd grade');
 
--- insert books
 INSERT INTO books (book_name, publisher) VALUES
   ('Learning and teaching in early childhood education', 'BOA Editions'),
   ('Preschool, N56', 'Taylor & Francis Publishing'),
   ('Early Childhood Education N9', 'Prentice Hall'),
   ('Know how to educate: guide for Parents and Teachers', 'McGraw Hill');
 
--- insert loans
 INSERT INTO loans (book_id, teacher_id, course_id, room_id, grade_id, loan_date) VALUES
   (1, 1, 1, 1, 1, '2010-09-09'),
   (2, 1, 2, 1, 1, '2010-05-05'),
