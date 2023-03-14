@@ -1,0 +1,2 @@
+The cost after creating single-column b-tree and hash indexes was almost the same for 1000 generated rows. 
+But after insertion 1M rows the queries with indexes became faster than queries without them.
