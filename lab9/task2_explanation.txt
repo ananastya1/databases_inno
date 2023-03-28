@@ -1,0 +1,29 @@
+At the Read Committed isolation level, the transactions will only see the changes committed before the transaction started, and will not see changes made by other transactions that have not yet been committed.
+
+Here is what will happen step by step:
+
+• T1 starts and reads accounts with group_id=2. It will only see the record for 'mike' with a balance of 73.
+
+• T2 starts and moves 'bbrown' to group 2.
+
+• T1 reads accounts with group_id=2 again. It will still only see the record for 'mike' with a balance of 73, because T2 has not yet committed the move of 'bbrown' to group 2.
+
+• T1 updates the selected account's balances by +15. In this case, it will only update 'mike's balance from 73 to 88.
+
+• Both transactions commit, and the changes are made to the database.
+
+At the Repeatable Read isolation level, the transactions will not see changes made by other transactions that have not yet been committed, even if those changes were committed before the transaction started.
+
+Here is what will happen step by step:
+
+• T1 starts and reads accounts with group_id=2. It will only see the record for 'mike' with a balance of 73.
+
+• T2 starts and moves 'bbrown' to group 2.
+
+• T1 reads accounts with group_id=2 again. It will still only see the record for 'mike' with a balance of 73, because T2 has not yet committed the move of 'bbrown' to group 2.
+
+• T1 updates the selected account's balances by +15. In this case, it will only update 'mike's balance from 73 to 88.
+
+• Both transactions commit, and the changes are made to the database.
+
+In both isolation levels, the update only affects the record for 'mike', because T1 did not see the move of 'bbrown' to group 2 made by T2. Therefore, the balance for 'bbrown' remains unchanged at 100.
