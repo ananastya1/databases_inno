@@ -1,0 +1,61 @@
+
+                                                          Task 1
+CREATE (khabib:Fighter {name: "Khabib Nurmagomedov", weight: 155})
+CREATE (rafael:Fighter {name: "Rafael Dos Anjos", weight: 155})
+CREATE (neil:Fighter {name: "Neil Magny", weight: 170})
+CREATE (jon:Fighter {name: "Jon Jones", weight: 205})
+CREATE (daniel:Fighter {name: "Daniel Cormier", weight: 205})
+CREATE (michael:Fighter {name: "Michael Bisping", weight: 185})
+CREATE (matt:Fighter {name: "Matt Hamill", weight: 185})
+CREATE (brandon:Fighter {name: "Brandon Vera", weight: 205})
+CREATE (frank:Fighter {name: "Frank Mir", weight: 230})
+CREATE (brock:Fighter {name: "Brock Lesnar", weight: 230})
+CREATE (kelvin:Fighter {name: "Kelvin Gastelum", weight: 185})
+
+CREATE (khabib)-[:BEAT]->(rafael)
+CREATE (rafael)-[:BEAT]->(neil)
+CREATE (jon)-[:BEAT]->(daniel)
+CREATE (michael)-[:BEAT]->(matt)
+CREATE (jon)-[:BEAT]->(brandon)
+CREATE (brandon)-[:BEAT]->(frank)
+CREATE (frank)-[:BEAT]->(brock)
+CREATE (neil)-[:BEAT]->(kelvin)
+CREATE (kelvin)-[:BEAT]->(michael)
+CREATE (michael)-[:BEAT]->(matt)
+CREATE (matt)-[:BEAT]->(jon)
+
+
+MATCH (n) OPTIONAL MATCH (n)-[r]-()
+RETURN n, r;
+
+                                                          Task 2.1
+MATCH (f:Fighter)-[:BEAT]->()
+WHERE f.weight IN [155, 170, 185]
+WITH f.weight AS weight, collect(DISTINCT f.name) AS fighters
+WHERE size(fighters) > 0
+RETURN weight, fighters
+
+                                                          Task 2.2
+MATCH (f1:Fighter)-[:BEAT]->(f2:Fighter)
+MATCH (f2)-[:BEAT]->(f1)
+WHERE f1 <> f2
+RETURN f1.name, f2.name, count(*) AS num_matches
+
+                                                         Task 2.3
+MATCH (f:Fighter)-[:BEAT|BEAT*]->()
+WITH f, count(*) AS num_fights
+ORDER BY num_fights DESC
+LIMIT 1
+MATCH (f2:Fighter)-[:BEAT|BEAT*]->()
+WITH f, f2, num_fights, count(*) AS num_fights2
+WHERE num_fights2 = num_fights
+RETURN f.name, num_fights
+
+                                                        Task 2.4
+MATCH (f:Fighter)
+WHERE NOT (f)-[:BEAT]->()
+WITH collect(f.name) AS undefeated
+MATCH (f2:Fighter)
+WHERE NOT ()-[:BEAT]->(f2)
+WITH collect(f2.name) AS defeated, undefeated
+RETURN undefeated, defeated
